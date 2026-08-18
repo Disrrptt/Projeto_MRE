@@ -69,7 +69,8 @@ export function Noticias() {
       <div className="section-heading">
         <div>
           <div className="eyebrow">Conteúdo</div>
-          <h2 id="news-title">Painel de notícias</h2>
+          <h1 id="news-title">Notícias</h1>
+          <p>Crie, edite e encontre publicações em um só lugar.</p>
         </div>
         <form
           className="search"

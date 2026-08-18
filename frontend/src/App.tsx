@@ -1,39 +1,60 @@
+import { useEffect, useState } from 'react';
 import { CepSearch } from './components/CepSearch';
 import { Noticias } from './components/Noticias';
 import './styles.css';
+
+type Page = 'cep' | 'noticias';
+
+function pageFromHash(): Page {
+  return window.location.hash === '#/noticias' ? 'noticias' : 'cep';
+}
+
 export default function App() {
+  const [page, setPage] = useState<Page>(pageFromHash);
+
+  useEffect(() => {
+    const onHashChange = () => setPage(pageFromHash());
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
   return (
     <>
       <header>
         <div className="shell nav">
-          <a className="brand" href="#top" aria-label="Portal Localiza, início">
-            <span>L</span>Localiza
+          <a className="brand" href="#/cep" aria-label="Localiza, consulta de CEP">
+            <span aria-hidden="true">L</span>Localiza
           </a>
-          <a href="#noticias">Notícias</a>
+          <nav className="main-nav" aria-label="Navegação principal">
+            <a href="#/cep" aria-current={page === 'cep' ? 'page' : undefined}>
+              Consultar CEP
+            </a>
+            <a href="#/noticias" aria-current={page === 'noticias' ? 'page' : undefined}>
+              Notícias
+            </a>
+          </nav>
         </div>
       </header>
-      <main id="top">
-        <div className="hero shell">
-          <div className="hero-copy">
-            <span className="pill">Serviços em um só lugar</span>
-            <h1>
-              Informação local,
-              <br />
-              <em>sem complicação.</em>
-            </h1>
-            <p>
-              Consulte endereços e mantenha suas notícias organizadas em uma experiência simples e
-              acessível.
-            </p>
+      <main>
+        {page === 'cep' ? (
+          <div className="page shell">
+            <div className="page-heading">
+              <span className="eyebrow">Endereços</span>
+              <h1>Consulta de CEP</h1>
+              <p>Encontre um endereço completo de forma rápida.</p>
+            </div>
+            <div className="focused-content">
+              <CepSearch />
+            </div>
           </div>
-          <CepSearch />
-        </div>
-        <div id="noticias" className="shell">
-          <Noticias />
-        </div>
+        ) : (
+          <div className="page shell">
+            <Noticias />
+          </div>
+        )}
       </main>
       <footer>
-        <div className="shell">Portal Localiza · Construído com React e TypeScript</div>
+        <div className="shell">Localiza · React e TypeScript</div>
       </footer>
     </>
   );

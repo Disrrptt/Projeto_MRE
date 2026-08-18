@@ -39,9 +39,8 @@ export function CepSearch() {
   }
   return (
     <section className="card cep-card" aria-labelledby="cep-title">
-      <div className="eyebrow">Consulta rápida</div>
-      <h2 id="cep-title">Encontre um endereço</h2>
-      <p className="muted">Informe os oito números do CEP para consultar a base ViaCEP.</p>
+      <h2 id="cep-title">Digite o CEP</h2>
+      <p className="muted">Use somente os oito números. A formatação é automática.</p>
       <form onSubmit={submit} noValidate>
         <label htmlFor="cep">CEP</label>
         <div className="input-row">
